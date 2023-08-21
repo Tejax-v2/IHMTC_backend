@@ -9,7 +9,8 @@
 <body style="background-color:#eee">
     <h2 class="text-center my-5">Search Records</h2>
     <div class="container" style="max-width: 700px;">
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
               <input type="email" class="form-control" id="email" name="email" >
