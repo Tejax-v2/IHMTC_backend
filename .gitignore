@@ -1,0 +1,49 @@
+# Compiled Python files
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+env/
+*.env
+
+# Database
+db.sqlite3
+
+# Logs
+*.log
+
+# Media files (user-uploaded content)
+media/
+
+# Static files (collected static assets)
+staticfiles/
+
+# Temporary files
+*.swp
+*.swo
+
+# Environment-specific settings
+*.settings
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+
+# Compiled JavaScript files
+*.js.map
+
+# macOS system files
+.DS_Store
+
+# Compiled CSS files
+*.css.map
+
+# Secret keys and sensitive information (use environment variables instead)
+*.secret
+
+# Local configuration files
+local_settings.py
+
+# Dependency lock files
+Pipfile.lock
