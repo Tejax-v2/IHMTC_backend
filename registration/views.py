@@ -28,8 +28,6 @@ def participant_details(request):
         ishmt_id = request.POST.get("ishmt_id")
         ishmt_id_file = request.FILES.get("ishmt_id_file")
 
-        print(email, honorific, fullname, gender, birthyear, affiliation,countryofaffiliation, countryCode, contact, WAcountryCode, WAcontact, num_papers, paper1_id, paper2_id, category, num_people, is_ishmt_member, ishmt_id, ishmt_id_file)
-
         participant = Participant.objects.create(email=email,honorific=honorific,gender=gender,full_name=fullname,birth_year=birthyear,affiliation=affiliation,country_of_affiliation=countryofaffiliation,country_code=countryCode,contact_number=contact,whatsapp_country_code=WAcountryCode,whatsapp_contact_number=WAcontact,num_papers=num_papers,paper1_id=paper1_id,paper2_id=paper2_id,category=category,num_accompanying_people=num_people,is_ishmt_member=is_ishmt_member,ishmt_id=ishmt_id,ishmt_id_file=ishmt_id_file)
 
         participant.save()

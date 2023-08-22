@@ -87,6 +87,9 @@ def forgot_password(request):
         except:
             print("Some error occured")
         send_reset_link(email, token)
+        participant = Participant.objects.get(email=user)
+        participant.forgot_pass_token = token
+        participant.save()
         print(email)
         return HttpResponse("Password reset link sent to your email") 
 
@@ -104,7 +107,7 @@ def reset_password(request,token):
         if(not errors):
             try:
                 participant = Participant.objects.get(forgot_pass_token=token)
-                user = User.objects.get(username=participant.email)
+                user = participant.email
                 user.set_password(pass1)
                 user.save()
             except:
