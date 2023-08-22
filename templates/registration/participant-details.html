@@ -11,12 +11,12 @@
 
 <body style="background-color: #eee">
     <h2 class="text-center my-3">Participant Details</h2>
-    <form method="POST" class="container" style="max-width: 700px">
+    <form method="POST" class="container" enctype="multipart/form-data" style="max-width: 700px">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="honorofic" class="form-label">Please select the appropriate honorific (prefix) that suits your
+            <label for="honorific" class="form-label">Please select the appropriate honorific (prefix) that suits your
                 profile.</label>
-            <select class="form-select" id="honorofic" name="honorofic" required>
+            <select class="form-select" id="honorific" name="honorific" required>
                 <option selected>Select the honorofic</option>
                 <option value="Prof.">Prof.</option>
                 <option value="Dr.">Dr.</option>
@@ -1141,9 +1141,9 @@
             <label for="category" class="form-label">Choose from amongst the following.</label>
             <select class="form-select" id="category" name="category" required>
                 <option selected>Select the category</option>
-                <option value="student">I am a student</option>
-                <option value="faculty">I am a faculty</option>
-                <option value="other">I am affiliated with industry/research labs/others</option>
+                <option value="Student">I am a student</option>
+                <option value="Faculty">I am a faculty</option>
+                <option value="Other">I am affiliated with industry/research labs/others</option>
             </select>
         </div>
         <div class="mb-3">
@@ -1156,11 +1156,11 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="is_ishmt member" class="form-label">Are you an ISHMT member?</label>
-            <select class="form-select" id="is_ishmt member" name="is_ishmt member" required>
+            <label for="is_ishmt_member" class="form-label">Are you an ISHMT member?</label>
+            <select class="form-select" id="is_ishmt_member" name="is_ishmt_member" required>
                 <option selected>Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
             </select>
         </div>
         <div class="row g-3 mb-3">
