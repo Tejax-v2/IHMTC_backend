@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from IHMTC_backend import settings
 from django.utils.safestring import mark_safe
+from registration.models import Participant
+import uuid
+from IHMTC_backend.utilities import send_reset_link
 
 # Create your views here.
 
@@ -77,16 +80,35 @@ def forgot_password(request):
         return render(request, "loginsystem/forgot-password.html")
     elif request.method == "POST":
         email = request.POST.get("email")
+        token = uuid.uuid4()
+        user = None
+        try:
+            user = User.objects.get(username=email)
+        except:
+            print("Some error occured")
+        send_reset_link(email, token)
         print(email)
         return HttpResponse("Password reset link sent to your email") 
 
-def reset_password(request):
+def reset_password(request,token):
     if request.method == "GET":
         return render(request, "loginsystem/reset-password.html")
     elif request.method == "POST":
         pass1 = request.POST.get("pass1")
         pass2 = request.POST.get("pass2")
-        print(pass1, pass2)
+        errors={}
+        if not pass1 or not pass2:
+            errors["missingInputs"]="Please fill out all fields"
+        elif pass1 != pass2:
+            errors["passwordMismatch"]="Passwords not matching"
+        if(not errors):
+            try:
+                participant = Participant.objects.get(forgot_pass_token=token)
+                user = User.objects.get(username=participant.email)
+                user.set_password(pass1)
+                user.save()
+            except:
+                return HttpResponse("Password reset failed")
         return HttpResponse("Password reset successful")
 
 def control_panel(request):
@@ -99,10 +121,10 @@ def control_panel(request):
     
 def signout(request):
     if request.method == "GET":
-        logout(request)  # This will delete the user's session
-        response = redirect('home')  # Replace 'home' with the URL name of your home screen
+        logout(request)  
+        response = redirect('home')  
         try:
-            response.delete_cookie('email')  # Delete any specific cookies if needed
+            response.delete_cookie('email')
         except:
             pass
         return response
