@@ -44,7 +44,7 @@ def signup(request):
             outputString+="</ul>"
             return HttpResponse(outputString)
         user.save()
-        return HttpResponse("Signup Successful")
+        return redirect("home")
 
 def signin(request):
     if request.method == "GET":
@@ -71,7 +71,7 @@ def signin(request):
             outputString+="</ul>"
             return HttpResponse(outputString)
         print(user)
-        response = HttpResponse("Signin Successful")
+        response = redirect("home")
         response.set_cookie('email', email, max_age=settings.SESSION_COOKIE_AGE)
         return response
 
@@ -91,7 +91,7 @@ def forgot_password(request):
         participant.forgot_pass_token = token
         participant.save()
         print(email)
-        return HttpResponse("Password reset link sent to your email") 
+        return redirect("home")
 
 def reset_password(request,token):
     if request.method == "GET":
@@ -112,7 +112,7 @@ def reset_password(request,token):
                 user.save()
             except:
                 return HttpResponse("Password reset failed")
-        return HttpResponse("Password reset successful")
+        return redirect("home")
 
 def control_panel(request):
     if request.method == "GET":
