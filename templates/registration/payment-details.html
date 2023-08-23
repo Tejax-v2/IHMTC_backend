@@ -18,15 +18,15 @@
         <p>Please visit the following payment link (<a style="white-space: break-spaces;" href="https://www.onlinesbi.sbi/sbicollect/icollecthome.htm">SBI Collect</a>), provide the relevant information, make the payment for the above-	mentioned amount and the category, and come back here to complete the remaining questions below.</p>
         <div class="mb-3 mt-4">
         <label for="receipt" class="form-label">Upload the copy (pdf/image) of payment receipt.</label>
-                <input class="form-control" type="file" id="receipt" name="receipt">
+                <input class="form-control" type="file" id="receipt" name="receipt" required>
                 </div>
                 <div class="mb-3">
               <label for="referencenum" class="form-label">Payment_reference_number</label>
-                <input type="text" class="form-control" id="referencenum" name="referencenum" placeholder="Enter the Payment Reference Number">
+                <input type="text" class="form-control" id="referencenum" name="referencenum" placeholder="Enter the Payment Reference Number" required>
                 </div>
                 <div class="mb-3">
                     <label for="comments" class="form-label">Any other comment?</label>
-                    <textarea class="form-control" name="comments" id="comments" rows="3"></textarea>
+                    <textarea class="form-control" name="comments" id="comments" rows="3" ></textarea>
                   </div>
                   <div class="mb-3 text-center">
                     <input type="submit" value="Submit" class="btn btn-primary">
