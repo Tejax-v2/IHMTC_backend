@@ -58,6 +58,9 @@ class Participant(models.Model):
     ishmt_id = models.CharField(max_length=100,blank=True,null=True)
     ishmt_id_file = models.FileField(upload_to='ishmt_ids/',blank=True,null=True)
     forgot_pass_token = models.CharField(max_length=50,blank=True,null=True)
+    receipt = models.FileField(upload_to='receipts/',blank=True,null=True)
+    payment_reference_number = models.CharField(max_length=100,blank=True,null=True)
+    comments = models.TextField(blank=True,null=True)
 
     def __str__(self):
         return self.full_name

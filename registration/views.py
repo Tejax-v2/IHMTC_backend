@@ -95,5 +95,9 @@ def payment_details(request):
             comments = request.POST.get("comments")
         except:
             pass
-        print(receipt,referencenum,comments)
+        participant = Participant.objects.get(email=request.user)
+        participant.receipt = receipt
+        participant.payment_reference_number = referencenum
+        participant.comments = comments
+        participant.save()
         return HttpResponse("Payment Details Submitted")
