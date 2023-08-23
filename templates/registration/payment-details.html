@@ -11,8 +11,26 @@
 
 <body style="background-color: #eee;">
     <h2 class="text-center my-3">Payment Details</h2>
-    <form method="POST" class="container" style="max-width: 700px;">
-        
+    <form method="POST" enctype="multipart/form-data" class="container" style="max-width: 700px;">
+        {% csrf_token %}
+        <p>Your registration category is {{category}}</p>
+        <p>Your registration amount is {{fee}}</p>
+        <p>Please visit the following payment link (<a style="white-space: break-spaces;" href="https://www.onlinesbi.sbi/sbicollect/icollecthome.htm">SBI Collect</a>), provide the relevant information, make the payment for the above-	mentioned amount and the category, and come back here to complete the remaining questions below.</p>
+        <div class="mb-3 mt-4">
+        <label for="receipt" class="form-label">Upload the copy (pdf/image) of payment receipt.</label>
+                <input class="form-control" type="file" id="receipt" name="receipt">
+                </div>
+                <div class="mb-3">
+              <label for="referencenum" class="form-label">Payment_reference_number</label>
+                <input type="text" class="form-control" id="referencenum" name="referencenum" placeholder="Enter the Payment Reference Number">
+                </div>
+                <div class="mb-3">
+                    <label for="comments" class="form-label">Any other comment?</label>
+                    <textarea class="form-control" name="comments" id="comments" rows="3"></textarea>
+                  </div>
+                  <div class="mb-3 text-center">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"

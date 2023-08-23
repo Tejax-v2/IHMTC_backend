@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import Participant
 
@@ -32,7 +32,68 @@ def participant_details(request):
 
         participant.save()
         
-        return HttpResponse("Participant Details")
+        return redirect("payment-details")
 
 def payment_details(request):
-    return render(request,"payment-details.html")
+    if request.method == "GET":
+        try:
+            participant = Participant.objects.get(email=request.user)
+        except:
+            return HttpResponse("Participant Details not found")
+        x = 'S'
+        y = 'P'
+        z = 'C'
+        if participant.country_of_affiliation == "SAARC":
+            x = 'S'
+        elif participant.country_of_affiliation == "Non-SAARC":
+            x = 'N'
+        if participant.category == "Student":
+            y = 'S'
+        elif participant.category == "Faculty":
+            y = 'F'
+        elif participant.category == "Others":
+            y = 'O'
+        if participant.is_ishmt_member == "Yes":
+            z = 'M'
+        elif participant.is_ishmt_member == "No":
+            z = 'N'
+
+        p = x+y+z
+        fee = "Rs. 0"
+        if p == "SSM":
+            fee = 6500*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*3800
+            fee = str(fee) + " INR"
+        elif p == "SSN":
+            fee = 7200*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*3800
+            fee = str(fee) + " INR"
+        elif p == "SFM":
+            fee = 8400*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*3800
+            fee = str(fee) + " INR"
+        elif p == "SFN":
+            fee = 9600*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*3800
+            fee = str(fee) + " INR"
+        elif p == "SIM":
+            fee = 11000*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*3800
+            fee = str(fee) + " INR"
+        elif p == "SIN":
+            fee = 12100*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*3800
+            fee = str(fee) + " INR"
+        elif p == "NSN":
+            fee = 200*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*180
+            fee = str(fee) + " USD"
+        elif p == "NFN":
+            fee = 460*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*180
+            fee = str(fee) + " USB"
+        elif p == "NIN":
+            fee = 550*( 1 + 0.25*(int(participant.num_papers) -1)) + int(participant.num_accompanying_people)*180
+            fee = str(fee) + " USD"
+        return render(request,"registration/payment-details.html",{"category":p,"fee":fee})
+    elif request.method == "POST":
+        try:
+            receipt = request.FILES.get("receipt")
+            referencenum = request.POST.get("referencenum")
+            comments = request.POST.get("comments")
+        except:
+            pass
+        print(receipt,referencenum,comments)
+        return HttpResponse("Payment Details Submitted")
