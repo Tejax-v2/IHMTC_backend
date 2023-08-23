@@ -123,41 +123,39 @@ def reset_password(request,token):
 
 def control_panel(request):
     if request.method == "GET":
-        return render(request, "loginsystem/control-panel.html")
-    elif request.method == "POST":
-        email = request.POST.get("email")
-        print(email)
-        # try:
-        user = User.objects.get(username=email)
-        participant = Participant.objects.get(email=user)
-        # except:
-        #     pass
-        return render(request,"loginsystem/control-panel.html",{
-            "participant":{
-                "Honorofic":participant.honorific,
-                "Full Name":participant.full_name,
-                "Email Address":participant.email,
-                "Gender":participant.gender,
-                "Birth Year":participant.birth_year,
-                "Affiliation":participant.affiliation,
-                "Country of Affiliation":participant.country_of_affiliation,
-                "Country Code":participant.country_code,
-                "Contact Number":participant.contact_number,
-                "Whatsapp Country Code":participant.whatsapp_country_code,
-                "Whatsapp Number":participant.whatsapp_contact_number,
-                "Number of Papers":participant.num_papers,
-                "Paper 1 ID":participant.paper1_id,
-                "Paper 2 ID":participant.paper2_id,
-                "Category":participant.category,
-                "Number of People":participant.num_accompanying_people,
-                "Is ISHMT Member?":participant.is_ishmt_member,
-                "ISHMT ID":participant.ishmt_id,
-                "ISHMT ID File":participant.ishmt_id_file,
-                "Payment Receipt":participant.receipt,
-                "Payment Reference Number":participant.payment_reference_number,
-                "Comments":participant.comments,
-                }
-                })
+        email = request.GET.get("email")
+        participant = None
+        try:
+            user = User.objects.get(username=email)
+            participant = Participant.objects.get(email=user)
+            return render(request,"loginsystem/control-panel.html",{
+                "participant":{
+                    "Honorofic":participant.honorific,
+                    "Full Name":participant.full_name,
+                    "Email Address":participant.email,
+                    "Gender":participant.gender,
+                    "Birth Year":participant.birth_year,
+                    "Affiliation":participant.affiliation,
+                    "Country of Affiliation":participant.country_of_affiliation,
+                    "Country Code":participant.country_code,
+                    "Contact Number":participant.contact_number,
+                    "Whatsapp Country Code":participant.whatsapp_country_code,
+                    "Whatsapp Number":participant.whatsapp_contact_number,
+                    "Number of Papers":participant.num_papers,
+                    "Paper 1 ID":participant.paper1_id,
+                    "Paper 2 ID":participant.paper2_id,
+                    "Category":participant.category,
+                    "Number of People":participant.num_accompanying_people,
+                    "Is ISHMT Member?":participant.is_ishmt_member,
+                    "ISHMT ID":participant.ishmt_id,
+                    "ISHMT ID File":participant.ishmt_id_file,
+                    "Payment Receipt":participant.receipt,
+                    "Payment Reference Number":participant.payment_reference_number,
+                    "Comments":participant.comments,
+                    }
+                    })
+        except:
+            return render(request,"loginsystem/control-panel.html")
     
 def signout(request):
     if request.method == "GET":

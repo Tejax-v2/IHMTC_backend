@@ -101,3 +101,13 @@ def payment_details(request):
         participant.comments = comments
         participant.save()
         return HttpResponse("Payment Details Submitted")
+    
+def delete_participant(request,email):
+    if request.method == "GET":
+        try:
+            user = User.objects.get(username=email)
+            participant = Participant.objects.get(email=user)
+            participant.delete()
+            return HttpResponse("Participant Deleted")
+        except:
+            return HttpResponse("Participant not found")
