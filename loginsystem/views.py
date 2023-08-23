@@ -7,6 +7,10 @@ from django.utils.safestring import mark_safe
 from registration.models import Participant
 import uuid
 from IHMTC_backend.utilities import send_reset_link
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Create your views here.
 
@@ -52,28 +56,31 @@ def signin(request):
     elif request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
-        errors = {}
-        if(not email or not password):
-            errors['missingInputs']="Please fill out all fields"
-        elif(not User.objects.filter(email=email).exists()):
-            errors['emailNotExist']="There is no account for this email. Please Sign up first"
-        if(not errors):
-            user = authenticate(username=email,password=password)
-            if(user):
-                request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-                login(request, user)
-            else:
-                return()
+        if email == os.getenv("ADMIN_EMAIL") and password == os.getenv("ADMIN_PASSWORD"):
+            return redirect("control-panel")
         else:
-            outputString = "<ul>"
-            for value in errors:
-                outputString+="<li>"+value+"</li>"
-            outputString+="</ul>"
-            return HttpResponse(outputString)
-        print(user)
-        response = redirect("home")
-        response.set_cookie('email', email, max_age=settings.SESSION_COOKIE_AGE)
-        return response
+            errors = {}
+            if(not email or not password):
+                errors['missingInputs']="Please fill out all fields"
+            elif(not User.objects.filter(email=email).exists()):
+                errors['emailNotExist']="There is no account for this email. Please Sign up first"
+            if(not errors):
+                user = authenticate(username=email,password=password)
+                if(user):
+                    request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+                    login(request, user)
+                else:
+                    return()
+            else:
+                outputString = "<ul>"
+                for value in errors:
+                    outputString+="<li>"+value+"</li>"
+                outputString+="</ul>"
+                return HttpResponse(outputString)
+            print(user)
+            response = redirect("home")
+            response.set_cookie('email', email, max_age=settings.SESSION_COOKIE_AGE)
+            return response
 
 def forgot_password(request):
     if request.method == "GET":
@@ -120,7 +127,37 @@ def control_panel(request):
     elif request.method == "POST":
         email = request.POST.get("email")
         print(email)
-        return HttpResponse("Control Panel")
+        # try:
+        user = User.objects.get(username=email)
+        participant = Participant.objects.get(email=user)
+        # except:
+        #     pass
+        return render(request,"loginsystem/control-panel.html",{
+            "participant":{
+                "Honorofic":participant.honorific,
+                "Full Name":participant.full_name,
+                "Email Address":participant.email,
+                "Gender":participant.gender,
+                "Birth Year":participant.birth_year,
+                "Affiliation":participant.affiliation,
+                "Country of Affiliation":participant.country_of_affiliation,
+                "Country Code":participant.country_code,
+                "Contact Number":participant.contact_number,
+                "Whatsapp Country Code":participant.whatsapp_country_code,
+                "Whatsapp Number":participant.whatsapp_contact_number,
+                "Number of Papers":participant.num_papers,
+                "Paper 1 ID":participant.paper1_id,
+                "Paper 2 ID":participant.paper2_id,
+                "Category":participant.category,
+                "Number of People":participant.num_accompanying_people,
+                "Is ISHMT Member?":participant.is_ishmt_member,
+                "ISHMT ID":participant.ishmt_id,
+                "ISHMT ID File":participant.ishmt_id_file,
+                "Payment Receipt":participant.receipt,
+                "Payment Reference Number":participant.payment_reference_number,
+                "Comments":participant.comments,
+                }
+                })
     
 def signout(request):
     if request.method == "GET":
