@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Create your views here.
 
 def home(request):
     if request.method == "GET":
