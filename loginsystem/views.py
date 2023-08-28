@@ -41,11 +41,7 @@ def signup(request):
         if(not errors):
             user = User.objects.create_user(username=email, email=email, password=pass1)
         else:
-            outputString = "<ul>"
-            for value in errors:
-                outputString+="<li>"+value+"</li>"
-            outputString+="</ul>"
-            return HttpResponse(outputString)
+            return render(request, "loginsystem/signup.html", {"errors":errors})
         user.save()
         return redirect("home")
 
@@ -69,13 +65,9 @@ def signin(request):
                     request.session.set_expiry(settings.SESSION_COOKIE_AGE)
                     login(request, user)
                 else:
-                    return()
+                    return render(request, "loginsystem/signin.html", {"invalidCredentials":"Invalid Credentials"})
             else:
-                outputString = "<ul>"
-                for value in errors:
-                    outputString+="<li>"+value+"</li>"
-                outputString+="</ul>"
-                return HttpResponse(outputString)
+                return render(request, "loginsystem/signin.html", {"errors":errors})
             print(user)
             response = redirect("home")
             response.set_cookie('email', email, max_age=settings.SESSION_COOKIE_AGE)
