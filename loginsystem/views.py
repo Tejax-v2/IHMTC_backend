@@ -154,9 +154,9 @@ def delete_participant(request,email):
             user = User.objects.get(username=email)
             participant = Participant.objects.get(email=user)
             participant.delete()
-            return HttpResponse("Participant Deleted")
+            return render(request,"loginsystem/control-panel.html",{"deleted":"Participant deleted successfully"})
         except:
-            return HttpResponse("Participant not found")
+            return render(request,"loginsystem/control-panel.html",{"notfound":"Participant not found"})
     
 def signout(request):
     if request.method == "GET":
