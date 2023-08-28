@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from registration.views import delete_participant
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,5 +9,5 @@ urlpatterns = [
     path('forgot-password/',views.forgot_password, name='forgot-password'),
     path('reset-password/<str:token>/',views.reset_password, name='reset-password'),
     path('control-panel/',views.control_panel, name='control-panel'),
-    path('delete-participant/<str:email>/', delete_participant, name='delete-participant'),
+    path('delete-participant/<str:email>', views.delete_participant, name='delete-participant'),
 ]

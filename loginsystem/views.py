@@ -131,7 +131,7 @@ def control_panel(request):
                 "participant":{
                     "Honorofic":participant.honorific,
                     "Full Name":participant.full_name,
-                    "Email Address":participant.email,
+                    "Email":participant.email,
                     "Gender":participant.gender,
                     "Birth Year":participant.birth_year,
                     "Affiliation":participant.affiliation,
@@ -155,6 +155,16 @@ def control_panel(request):
                     })
         except:
             return render(request,"loginsystem/control-panel.html")
+        
+def delete_participant(request,email):
+    if request.method == "GET":
+        try:
+            user = User.objects.get(username=email)
+            participant = Participant.objects.get(email=user)
+            participant.delete()
+            return HttpResponse("Participant Deleted")
+        except:
+            return HttpResponse("Participant not found")
     
 def signout(request):
     if request.method == "GET":
