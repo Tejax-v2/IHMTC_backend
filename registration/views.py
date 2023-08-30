@@ -2,8 +2,6 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import Participant
 
-# Create your views here.
-
 def participant_details(request):
     if request.method == "GET":
         return render(request,"registration/participant-details.html",{"email":request.user})
